@@ -138,6 +138,16 @@ async function main() {
       ajuda: { type: 'boolean', short: 'h' },
     },
   });
+  // No Windows/PowerShell o npm às vezes consome os parâmetros após "--" e os
+  // repassa como variáveis npm_config_<nome>. Recupera-os daí quando faltarem.
+  const opcoes = values as Record<string, string | boolean | undefined>;
+  for (const nome of ['de', 'para', 'ida', 'volta', 'adultos', 'classe', 'escalas', 'fontes', 'milheiro', 'dinheiro', 'milhas', 'taxas', 'forcar']) {
+    const env = process.env[`npm_config_${nome}`];
+    if (opcoes[nome] === undefined && env !== undefined && env !== '') {
+      opcoes[nome] = nome === 'forcar' ? env !== 'false' : env;
+    }
+  }
+  if (!positionals.length && process.env.npm_config_site) positionals.push(process.env.npm_config_site);
   if (!comando || values.ajuda) return void console.log(AJUDA);
 
   if (comando === 'buscar') return buscar(values);
