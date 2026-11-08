@@ -1,0 +1,6 @@
+node_modules/
+.env
+# perfil do navegador (contém cookies/sessões de login) — NUNCA versionar
+.perfil-navegador/
+# resultados, capturas e histórico pessoal
+dados/

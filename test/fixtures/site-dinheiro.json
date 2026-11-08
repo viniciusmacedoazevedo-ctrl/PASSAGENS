@@ -1,0 +1,9 @@
+{"status":"OK","content":{"meta":{"currency":"BRL","totalResults":2},
+ "flights":[
+  {"summary":{"origin":{"iataCode":"NAT"},"destination":{"iataCode":"LIS"},"departure":{"dateTime":"2027-01-10T22:40:00"},"duration":485,
+    "brands":[{"brandName":"Light","price":{"amount":1990.5,"currency":"BRL"}},{"brandName":"Top","price":{"amount":3100,"currency":"BRL"}}]},
+   "itinerary":[{"flightNumber":"LA8084","origin":"NAT","destination":"LIS","departureDate":"2027-01-10T22:40:00"}]},
+  {"summary":{"origin":{"iataCode":"NAT"},"destination":{"iataCode":"LIS"},"departure":{"dateTime":"2027-01-10T06:10:00"},"duration":1320,
+    "brands":[{"brandName":"Light","price":{"amount":2450,"currency":"BRL"}}]},
+   "itinerary":[{"flightNumber":"LA3311","origin":"NAT","destination":"GRU","departureDate":"2027-01-10T06:10:00"},{"flightNumber":"LA8146","origin":"GRU","destination":"LIS","departureDate":"2027-01-10T16:00:00"}]}
+ ]}}

@@ -1,0 +1,8 @@
+{"requestedFlightSegmentList":[{"flightList":[
+  {"departure":{"date":"2027-01-10T22:40:00","airport":{"code":"NAT"}},"arrival":{"date":"2027-01-11T10:45:00","airport":{"code":"LIS"}},
+   "legList":[{"flightNumber":"TP 36","marketingAirline":{"code":"TP"}}],
+   "fareList":[{"type":"SMILES","miles":"98.000","airlineTax":"312,45"},{"type":"SMILES_CLUB","miles":"88.200","airlineTax":"312,45"}]},
+  {"departure":{"date":"2027-01-10T05:00:00","airport":{"code":"NAT"}},"arrival":{"date":"2027-01-11T07:00:00","airport":{"code":"LIS"}},
+   "legList":[{"flightNumber":"G3 1450","marketingAirline":{"code":"G3"}},{"flightNumber":"AF 457","marketingAirline":{"code":"AF"}}],
+   "fareList":[{"type":"SMILES","miles":"64.500","airlineTax":"420,10"}]}
+]}]}

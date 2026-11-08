@@ -1,0 +1,25 @@
+{
+  "name": "buscador-passagens",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Buscador pessoal de passagens (dinheiro e milhas): Duffel + robô assistido nos sites das companhias e programas.",
+  "type": "module",
+  "engines": {
+    "node": ">=22.18"
+  },
+  "scripts": {
+    "buscar": "node --env-file-if-exists=.env src/cli.ts buscar",
+    "login": "node --env-file-if-exists=.env src/cli.ts login",
+    "fontes": "node --env-file-if-exists=.env src/cli.ts fontes",
+    "comparar": "node --env-file-if-exists=.env src/cli.ts comparar",
+    "test": "node --test \"test/*.test.ts\"",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "playwright": "1.56.1"
+  },
+  "devDependencies": {
+    "@types/node": "22.18.0",
+    "typescript": "5.9.2"
+  }
+}

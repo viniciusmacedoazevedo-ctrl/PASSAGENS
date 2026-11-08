@@ -1,0 +1,13 @@
+{"data":{"offers":[
+ {"id":"off_1","total_amount":"1850.40","total_currency":"BRL","tax_amount":"310.00",
+  "owner":{"name":"TAP Air Portugal","iata_code":"TP"},
+  "slices":[{"duration":"PT8H5M","segments":[
+    {"origin":{"iata_code":"NAT"},"destination":{"iata_code":"LIS"},"departing_at":"2027-01-10T22:40:00","arriving_at":"2027-01-11T10:45:00",
+     "marketing_carrier":{"iata_code":"TP"},"marketing_carrier_flight_number":"36",
+     "passengers":[{"baggages":[{"type":"checked","quantity":1},{"type":"carry_on","quantity":1}]}]}]}]},
+ {"id":"off_2","total_amount":"2400.00","total_currency":"BRL",
+  "owner":{"name":"LATAM Airlines","iata_code":"LA"},
+  "slices":[{"duration":"P1DT2H","segments":[
+    {"origin":{"iata_code":"NAT"},"destination":{"iata_code":"GRU"},"departing_at":"2027-01-10T05:00:00","arriving_at":"2027-01-10T08:30:00","marketing_carrier":{"iata_code":"LA"},"marketing_carrier_flight_number":"3311"},
+    {"origin":{"iata_code":"GRU"},"destination":{"iata_code":"LIS"},"departing_at":"2027-01-10T16:00:00","arriving_at":"2027-01-11T07:00:00","marketing_carrier":{"iata_code":"LA"},"marketing_carrier_flight_number":"8146"}]}]}
+]}}
