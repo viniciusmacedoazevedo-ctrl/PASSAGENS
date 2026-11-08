@@ -148,6 +148,8 @@ export function criarFonteSite(site: Site): Fonte {
         }
 
         await salvarCapturas(site, capturas, page, ctx);
+        const titulo = await page.title().catch(() => '?');
+        ctx.log(`Diagnóstico: ${capturas.length} resposta(s) JSON capturada(s) do site; ${extrair().length} itinerário(s) identificado(s); página: "${titulo}" (${page.url().slice(0, 120)})`);
         const agora = new Date().toISOString();
         return extrair().map((e) => ({
           fonte: site.id,
@@ -175,6 +177,8 @@ async function salvarCapturas(site: Site, capturas: Captura[], page: Page, ctx: 
   await mkdir(dir, { recursive: true });
   await writeFile(path.join(dir, 'respostas.json'), JSON.stringify(capturas, null, 1));
   await page.screenshot({ path: path.join(dir, 'tela.png'), fullPage: true }).catch(() => {});
+  await writeFile(path.join(dir, 'pagina.html'), await page.content().catch(() => '')).catch(() => {});
+  await writeFile(path.join(dir, 'urls.txt'), capturas.map((c) => `${c.status} ${c.url}`).join('\n')).catch(() => {});
   ctx.arquivosCaptura.push(dir);
 }
 
