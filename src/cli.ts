@@ -4,14 +4,15 @@ import { createInterface } from 'node:readline/promises';
 import { parseArgs } from 'node:util';
 import { paraBRL } from './cambio.ts';
 import { compararDinheiroMilhas, milheiroDoPrograma } from './comparar.ts';
-import { chaveConsulta, montarConsulta } from './consulta.ts';
+import { chaveConsulta, melhorMilhasPorPrograma, montarConsulta } from './consulta.ts';
 import { relatorioHtml, resumoTerminal, type LinhaComparacao, type ResultadoBRL } from './relatorio.ts';
 import { criarFonteSite, fecharNavegador, loginManual } from './robots/navegador.ts';
 import { SITES, siteDe } from './robots/sites.ts';
 import { duffel } from './sources/duffel.ts';
+import { seatsaero } from './sources/seatsaero.ts';
 import type { ContextoExecucao, Fonte, Resultado, StatusFonte } from './types.ts';
 
-const FONTES: Fonte[] = [duffel, ...SITES.map(criarFonteSite)];
+const FONTES: Fonte[] = [duffel, seatsaero, ...SITES.map(criarFonteSite)];
 const DADOS = path.resolve('dados');
 
 const AJUDA = `
@@ -74,7 +75,7 @@ async function buscar(args: Record<string, string | boolean | undefined>) {
         msg = `do cache (consulta repetida em menos de ${process.env.CACHE_MINUTOS ?? 15} min; use --forcar para refazer)`;
       } else {
         console.log(`\n→ ${fonte.nome}`);
-        if (i > 0 && fonte.id !== 'duffel') await new Promise((res) => setTimeout(res, 3000)); // intervalo entre sites
+        if (i > 0 && siteDe(fonte.id)) await new Promise((res) => setTimeout(res, 3000)); // intervalo entre sites
         r = await fonte.executar(consulta, ctx);
         if (r.length) await gravarCache(chave, r);
       }
@@ -98,22 +99,17 @@ async function buscar(args: Record<string, string | boolean | undefined>) {
     .sort((a, b) => a.valorBRL! - b.valorBRL!)[0];
   const comps: LinhaComparacao[] = [];
   if (melhorDinheiro) {
-    const porPrograma = new Map<string, ResultadoBRL>();
-    for (const r of res.filter((x) => x.modalidade === 'milhas' && x.milhas)) {
-      const p = r.programa ?? r.fonte;
-      const atual = porPrograma.get(p);
-      if (!atual || r.milhas! < atual.milhas!) porPrograma.set(p, r);
-    }
+    const porPrograma = melhorMilhasPorPrograma(res, consulta);
     for (const [programa, r] of porPrograma) {
       const milheiro = milheiroDoPrograma(programa, args.milheiro ? Number(args.milheiro) : undefined);
       comps.push({
         programa,
-        milhas: r.milhas!,
-        taxasBRL: r.taxasBRL ?? 0,
+        milhas: r.milhas,
+        taxasBRL: r.taxasBRL,
         dinheiroBRL: melhorDinheiro.valorBRL!,
         fonteDinheiro: melhorDinheiro.fonte,
         milheiro,
-        comparacao: compararDinheiroMilhas(melhorDinheiro.valorBRL!, r.milhas!, r.taxasBRL ?? 0, milheiro),
+        comparacao: compararDinheiroMilhas(melhorDinheiro.valorBRL!, r.milhas, r.taxasBRL, milheiro),
       });
     }
   }

@@ -1,0 +1,9 @@
+{"data":[
+ {"ID":"a1","Route":{"OriginAirport":"GRU","DestinationAirport":"LIS","Source":"smiles"},"Date":"2027-01-10","Source":"smiles",
+  "YAvailable":true,"YMileageCost":"64500","YMileageCostRaw":64500,"YTotalTaxes":42010,"TaxesCurrency":"BRL","YRemainingSeats":4,"YAirlines":"TP","YDirect":true,
+  "JAvailable":false,"JMileageCost":"0","JMileageCostRaw":0},
+ {"ID":"a2","Route":{"OriginAirport":"GRU","DestinationAirport":"LIS","Source":"aeroplan"},"Date":"2027-01-10","Source":"aeroplan",
+  "YAvailable":true,"YMileageCost":"60000","YMileageCostRaw":60000,"YTotalTaxes":9850,"TaxesCurrency":"CAD","YRemainingSeats":0,"YAirlines":"TP, LH","YDirect":false},
+ {"ID":"a3","Route":{"OriginAirport":"GRU","DestinationAirport":"LIS","Source":"flyingblue"},"Date":"2027-01-10","Source":"flyingblue",
+  "YAvailable":false,"YMileageCostRaw":0}
+],"count":3,"hasMore":false}

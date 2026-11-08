@@ -5,6 +5,7 @@ Ferramenta **de uso pessoal** para consulta **pontual**. Você informa origem, d
 | Fonte | Tipo | Como |
 |---|---|---|
 | `duffel` | dinheiro | API oficial do Duffel (dados estruturados) |
+| `seatsaero` | milhas | API do seats.aero, plano Pro, uso pessoal: Smiles, Aeroplan, Flying Blue, United, American e outros (dados em cache) |
 | `latam` | dinheiro | robô assistido, link direto |
 | `latampass` | milhas | robô assistido, link direto (geralmente exige login) |
 | `smiles` | milhas | robô assistido, link direto (a calibrar) |
@@ -17,7 +18,7 @@ Ferramenta **de uso pessoal** para consulta **pontual**. Você informa origem, d
 
 No fim, a ferramenta mostra o melhor preço em dinheiro e em milhas, compara dinheiro × milhas pelo valor do milheiro e gera um **relatório HTML**.
 
-> **O Duffel não consulta programas de milhas.** Ele retorna só tarifas em dinheiro. As milhas vêm dos robôs nos sites dos programas.
+> **O Duffel não consulta programas de milhas.** Ele retorna só tarifas em dinheiro. As milhas vêm do **seats.aero** e dos robôs nos sites dos programas. LATAM Pass, Azul e TAP Miles&Go não estão no seats.aero; para esses, use os robôs `latampass` e `milesgo`.
 
 ## Como funciona o robô (e o que ele não faz)
 
@@ -42,6 +43,16 @@ No fim, a ferramenta mostra o melhor preço em dinheiro e em milhas, compara din
 4. No `.env`, preencha `DUFFEL_TOKEN` (veja abaixo) e, se quiser, os valores do milheiro.
 5. O robô usa o **Google Chrome** instalado. Se preferir o Edge, use `NAVEGADOR=msedge`. Se não tiver nenhum dos dois: `npx playwright install chromium` e `NAVEGADOR=chromium`.
 
+### Chave do seats.aero (milhas)
+
+1. Assine o plano **Pro** em https://seats.aero (cerca de US$ 10/mês). A API é liberada para assinantes Pro em uso pessoal e não comercial, com limite de cerca de 1.000 chamadas por dia. Cada trecho consultado gasta 1 chamada.
+2. Gere a chave em **Settings → API** e cole no `.env`: `SEATS_AERO_KEY=...`.
+3. Opcional: `SEATS_AERO_PROGRAMAS=smiles,aeroplan,flyingblue` limita os programas consultados.
+
+Os dados do seats.aero vêm de um **cache** com as buscas recentes deles. A disponibilidade pode ter mudado, então confirme no site do programa antes de transferir pontos ou emitir.
+
+Os nomes de campos da API foram implementados conforme o formato conhecido, mas **a documentação oficial não pôde ser conferida** durante o desenvolvimento. A resposta bruta fica em `capturas\seatsaero\respostas.json`. Se milhas ou taxas vierem estranhas, me envie esse arquivo.
+
 ### Token do Duffel
 
 A API do Duffel **não usa e-mail e senha**. Use um token:
@@ -56,6 +67,9 @@ Tokens de **teste** (`duffel_test_`) só retornam a companhia fictícia "Duffel 
 ```powershell
 # todas as fontes
 npm run buscar -- --de NAT --para LIS --ida 2027-01-10 --volta 2027-01-25
+
+# só milhas pela API (rápido, sem abrir navegador)
+npm run buscar -- --de GRU --para LIS --ida 2027-01-10 --fontes seatsaero
 
 # só algumas fontes
 npm run buscar -- --de GRU --para YYZ --ida 2027-03-05 --fontes duffel,aeroplan,aircanada,westjet
@@ -104,6 +118,7 @@ Se um site não abrir os resultados direto, o robô pede que você faça a busca
 src/cli.ts              comandos (buscar, login, fontes, comparar)
 src/consulta.ts         validação da consulta
 src/sources/duffel.ts   API do Duffel
+src/sources/seatsaero.ts API do seats.aero (milhas)
 src/robots/sites.ts     sites, links diretos e domínios capturados
 src/robots/navegador.ts robô assistido (Chrome visível, para em CAPTCHA)
 src/robots/extrair.ts   extração dos itinerários a partir do JSON dos sites
@@ -116,4 +131,4 @@ test/                   testes (npm test)
 ## Segurança
 
 - `.env`, `.perfil-navegador\` (cookies e sessões de login) e `dados\` **não** vão para o git (`.gitignore`).
-- Não coloque senhas no `.env`. O único segredo é o `DUFFEL_TOKEN`.
+- Não coloque senhas no `.env`. Os únicos segredos são `DUFFEL_TOKEN` e `SEATS_AERO_KEY`.
